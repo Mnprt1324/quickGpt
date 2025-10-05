@@ -34,3 +34,14 @@ export const sendMessageApi = (data) => {
 export const purchaseCreditsApi = (planId) => {
   return api.post("/credit/purchase", { planId });
 };
+export const paymntVerifyApi = (sessionId) => {
+  return api.post("/credit/payment-verify", { sessionId });
+};
+
+export const signupApi = (data) => {
+  return api.post("/user/register", data);
+};
+
+export const logoutApi = () => {
+  return api.post("/user/logout");
+};

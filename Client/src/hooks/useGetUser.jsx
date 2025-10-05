@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import AppContext from "../utils/AppContex";
 import { getUserDetails } from "../api/api";
+import toast from "react-hot-toast";
 
 export const useGetUser = () => {
   const { setUser ,setCredits} = useContext(AppContext);

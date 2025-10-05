@@ -11,7 +11,6 @@ export const useSendMessage = () => {
     setLoading(true);
     try {
       const res = await sendMessageApi(data);
-      console.log(res);
       if (res.data.success) {
         setCredits((prev) => prev - 1);
         setLoading(false);

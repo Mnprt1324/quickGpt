@@ -24,7 +24,7 @@ connectionToDB()
 const PORT = process.env.PORT || 5000;
 
 
-app.post("/api/stripe", express.raw({ type: 'application/json' }), (req, res) => { console.log("appi called"); handleStripeWebhook(req, res) })
+// app.post("/api/stripe", express.raw({ type: 'application/json' }), (req, res) => { console.log("appi called"); handleStripeWebhook(req, res) })
 app.get("/", (req, res) => {
     res.send(`${process.env.GEMINI_API_KEY}Server is running!`);
 });

@@ -6,6 +6,8 @@ import Credits from "../pages/Credits";
 import Login from "../pages/Login";
 import { createBrowserRouter } from "react-router-dom";
 import { LoadingPage } from "../pages/LoadingPage";
+import SignUp from "../pages/SignUp";
+import ErrorPage from "../pages/ErrorPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,8 +40,16 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
+    path: "/signup",
+    element: <SignUp />,
+  },
+  {
     path: "/loading",
     element: <LoadingPage />,
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 export default router;

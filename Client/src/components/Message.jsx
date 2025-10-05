@@ -30,7 +30,7 @@ export const Message = ({ message }) => {
               className="w-full  max-w-md  mt-2 rounded-md"
             />
           ) : (
-            <div className="text-sm reset-tw  ">
+            <div className="text-sm reset-tw  overflow-x-scroll ">
               <Markdown>{message.content}</Markdown>
             </div>
           )}

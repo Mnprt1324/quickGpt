@@ -1,5 +1,6 @@
 import transaction from "../models/transcation.model.js";
 import Stripe from "stripe";
+import User from "../models/user.model.js";
 const plans = [
     {
         _id: "basic",
@@ -18,7 +19,7 @@ const plans = [
     {
         _id: "premium",
         name: "premium",
-        price: "300",
+        price: "30",
         credits: 1000,
         features: ['1000 text generations', '500 image generations', '24/7 VIP support', 'Standard support', 'Access to premium models', 'Dedicated account manager']
     }
@@ -74,18 +75,53 @@ export const purchasePlan = async (req, res) => {
                     quantity: 1,
                 },
             ],
-            success_url: `${origin}/loading`,
+            success_url: `${origin}/loading?sessionId={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}`,
             mode: 'payment',
             metadata: {
-                transactionId: newTransaction._id.toString(), appId: "quickgpt"
+                transactionId: newTransaction._id.toString(), appId: "quickgpt", userId
             },
             expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // 30 minutes from now
         });
         // return response
-        res.status(200).json({ success: true, plan, url: session.url });
+        res.status(200).json({ success: true, plan, url: session.url, sessionId: session.id });
     } catch (error) {
         console.log("Error in purchasing plan", error);
         res.status(500).json({ success: false, message: "Internal server error" })
     }
 }
+
+
+export const verifyPayment = async (req, res) => {
+    const { sessionId } = req.body;
+    try {
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+        if (session.payment_status === "paid") {
+            // Get transactionId from Stripe session metadata
+            const transactionId = session.metadata.transactionId;
+
+            // Find the transaction that matches
+            const transactionDetails = await transaction.findOne({ _id: transactionId, ispaid: false });
+            if (!transactionDetails) {
+                return res.status(404).json({ success: false, message: "Transaction not found or already paid" });
+            }
+
+            // Update user credits
+            await User.findByIdAndUpdate(transactionDetails.userId, {
+                $inc: { credites: transactionDetails.credits }
+            });
+
+            // Mark transaction as paid
+            transactionDetails.ispaid = true;
+            await transactionDetails.save();
+
+            return res.json({ success: true, message: "Payment verified" });
+        }
+
+        res.status(400).json({ success: false, message: "Payment not completed" });
+    } catch (err) {
+        console.error("Error verifying payment:", err);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};

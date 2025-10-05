@@ -8,6 +8,7 @@ export const AppContextProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
   const [credits, setCredits] = useState(0);
   const [selectedChat, setSelectedChat] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
   const [dark, setDark] = useState(
     () => localStorage.getItem("theme") === "dark"
   );
@@ -22,11 +23,9 @@ export const AppContextProvider = ({ children }) => {
     }
   }, [dark]);
 
- useEffect(()=>{
-  setSelectedChat(chats[0])
- },[])
-
-
+  useEffect(() => {
+    setSelectedChat(chats[0]);
+  }, []);
 
   return (
     <AppContext.Provider
@@ -42,6 +41,8 @@ export const AppContextProvider = ({ children }) => {
         dark,
         credits,
         setCredits,
+        setIsOpen,
+        isOpen,
       }}
     >
       {children}
