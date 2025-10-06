@@ -81,14 +81,14 @@ export const getPublishedImages = async (req, res) => {
                 }
             },
             {
-                $project:{
-                    _id:0,
-                    imgurl:"$message.content",
-                    userName:"$userName"
+                $project: {
+                    _id: 0,
+                    imgurl: "$message.content",
+                    userName: "$useName"
                 }
             }
         ])
-        res.send(200).json({success:true, images:publishImageMessages.reverse()})
+        res.status(200).json({ success: true, images: publishImageMessages.reverse() })
 
     } catch (error) {
         console.log("Error in getting all images:", error)

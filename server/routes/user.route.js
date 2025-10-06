@@ -7,6 +7,6 @@ router.post("/register", registerUser)
 router.post("/login", loginUser)
 router.post("/logout", userLogout)
 router.get("/getuser", chectAuth, getUserDetails)
-router.get("/published-images", chectAuth,getPublishedImages)
+router.get("/published-images",getPublishedImages)
 
 export default router;

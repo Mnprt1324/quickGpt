@@ -45,3 +45,7 @@ export const signupApi = (data) => {
 export const logoutApi = () => {
   return api.post("/user/logout");
 };
+
+export const commImageApi=()=>{
+return api.get("/user/published-images")
+}
