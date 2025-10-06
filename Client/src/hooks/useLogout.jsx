@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { logoutApi } from "../api/api";
 import { useNavigate } from "react-router-dom";
+import AppContext from "../utils/AppContex";
 
 const useLogout = () => {
   const [loading, setLoading] = useState(false);
+  const { setIsAuthenticate } = useContext(AppContext);
   const navigate = useNavigate();
   const logout = async () => {
     setLoading(true);
@@ -15,6 +17,7 @@ const useLogout = () => {
         localStorage.removeItem("theme");
         navigate("/login");
         setLoading(false);
+        setIsAuthenticate(false);
         toast.success(res.data?.message || "User Logout");
       }
     } catch (error) {

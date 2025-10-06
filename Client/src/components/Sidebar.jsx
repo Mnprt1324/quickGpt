@@ -225,7 +225,7 @@ export const Sidebar = () => {
               {user?.name || "loading..."}
               <button
                 onClick={() => logout()}
-                className="bg-red-500  py-2 px-2 text-white rounded-md active:scale-105 cursor-pointer right-0 hidden group-hover:block absolute "
+                className="bg-red-500  py-2 px-2 block text-white rounded-md active:scale-105 cursor-pointer right-0 md:hidden  md:group-hover:block absolute "
               >
                 {isLoading ? <Loading /> : "Logout"}
               </button>

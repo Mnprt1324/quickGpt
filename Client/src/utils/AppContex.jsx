@@ -9,6 +9,8 @@ export const AppContextProvider = ({ children }) => {
   const [credits, setCredits] = useState(0);
   const [selectedChat, setSelectedChat] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthenticate, setIsAuthenticate] = useState(false);
+  const token = localStorage.getItem("quickToken");
   const [dark, setDark] = useState(
     () => localStorage.getItem("theme") === "dark"
   );
@@ -25,6 +27,12 @@ export const AppContextProvider = ({ children }) => {
 
   useEffect(() => {
     setSelectedChat(chats[0]);
+  }, []);
+  useEffect(() => {
+    if (token) {
+      setIsAuthenticate(true);
+      console.log(isAuthenticate);
+    }
   }, []);
 
   return (
@@ -43,6 +51,8 @@ export const AppContextProvider = ({ children }) => {
         setCredits,
         setIsOpen,
         isOpen,
+        isAuthenticate,
+        setIsAuthenticate,
       }}
     >
       {children}

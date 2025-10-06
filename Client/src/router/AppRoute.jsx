@@ -1,5 +1,5 @@
 import { ChatBox } from "../components/ChatBox";
-import { AppLayout } from "../components/Layout/appLayout";
+import { AppLayout } from "../components/Layout/AppLayout";
 import { Message } from "../components/Message";
 import Community from "../pages/Community";
 import Credits from "../pages/Credits";
@@ -8,10 +8,15 @@ import { createBrowserRouter } from "react-router-dom";
 import { LoadingPage } from "../pages/LoadingPage";
 import SignUp from "../pages/SignUp";
 import ErrorPage from "../pages/ErrorPage";
+import { ProtectedRoute, PublicRoute } from "../utils/ProtectedRoutes";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayout />,
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "/",
@@ -37,11 +42,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
+    ),
   },
   {
     path: "/signup",
-    element: <SignUp />,
+    element: (
+      <PublicRoute>
+        <SignUp />
+      </PublicRoute>
+    ),
   },
   {
     path: "/loading",
