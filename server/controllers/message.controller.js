@@ -2,9 +2,7 @@ import User from "../models/user.model.js";
 import axios from "axios";
 import Chat from "../models/chat.model.js"
 import genAI from "../utils/gemini.js";
-import openai from "../utils/openAi.js";
 import imagekit from "../utils/imagekit.js";
-import fs from "fs"
 
 export const textMessageGen = async (req, res) => {
     try {
@@ -42,12 +40,22 @@ export const ImageMessageGen = async (req, res) => {
         }
         const { prompt, chatId, isPublished } = req.body;
         const chat = await Chat.findOne({ _id: chatId, userId });
-        chat.message.push({ role: "user", content: prompt, timestamps: Date.now(), isImage: true });
-        const encodedPrompt = encodeURIComponent(prompt);
-        const generateImageUrl = `${process.env.IMG_KIT_urlEndpoint}/ik-genimg-prompt-${encodedPrompt}/quickgpt/${Date.now()}.png?tr=w-800,h-800`
-        const aiImageResponse = await axios.get(generateImageUrl, {
-            responseType: "arraybuffer",
+       chat.message.push({ role: "user", content: prompt, timestamps: Date.now(), isImage: true });
+        // const encodedPrompt = encodeURIComponent(prompt);
+        // const generateImageUrl = `${process.env.IMG_KIT_urlEndpoint}/ik-genimg-prompt-${encodedPrompt}/quickgpt/${Date.now()}.png?tr=w-800,h-800`
+        // const aiImageResponse = await axios.get(generateImageUrl, {
+        //     responseType: "arraybuffer",
+        // })
+        const formData = new FormData();
+        formData.append("prompt", prompt);
+        console.log(process.env.CLIP_DROP_API)
+        const aiImageResponse = await axios.post("https://clipdrop-api.co/text-to-image/v1", formData, {
+            headers: {
+                'x-api-key': process.env.CLIP_DROP_API
+            },
+            responseType: "arraybuffer"
         })
+
         // convert to base64
         const base64Img = `data:image/png;base64,${Buffer.from(aiImageResponse.data, "binary").toString('base64')}`
         const uploadResponse = await imagekit.upload({
