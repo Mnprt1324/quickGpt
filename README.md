@@ -29,4 +29,43 @@ It allows users to chat intelligently, generate content, and manage usage throug
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/QuickGPT.git
+https://github.com/Mnprt1324/quickGpt.git
+
+
+⚡Getting Started
+🔧 Backend Setup
+cd server
+npm install
+Create a .env file in /server:
+PORT=PORT
+PORT=5001
+MONGO_URL=
+JWT_SECRET=
+GEMINI_API_KEY=
+IMG_KIT_publicKey=
+IMG_KIT_privateKey=
+IMG_KIT_urlEndpoint=
+FRONT_URL='
+#stripe keys
+STRIPE_PUBLIC_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+CLIP_DROP_API=
+Run the server:
+npm run dev
+🎨 Frontend Setup
+cd client
+npm install
+Update the frontend .env to point to your backend:
+
+VITE_BASE_URL=BACKEND_URL=BACKEND_URL
+Run the frontend server:
+npm run dev
+🚀 Deployment
+Frontend: Deployed on Vercel
+
+Backend: Deployed on Vercel
+
+🧩 Folder Structure
+/client => React frontend
+/Server => Node.js + Express backend
